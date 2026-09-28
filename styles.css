@@ -36,6 +36,10 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
+  /* Stop iOS inflating body text in the stacked mobile columns. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
   /* No `scroll-behavior: smooth` here on purpose: script.js owns anchor
      animation so that a jump still lands when animation frames are paused.
      Without JS these fall back to instant native jumps, which is fine —
@@ -203,6 +207,26 @@ a { color: inherit; }
 .nav__links a:hover { color: var(--text-primary); }
 .nav__links .btn { color: var(--on-accent); }
 
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* Hidden until the links stop fitting on one row. */
+.nav__toggle {
+  display: none;
+  width: 44px; height: 44px;
+  border: 0; border-radius: 12px;
+  background: transparent center / 22px 22px no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314141C' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 7h16M4 12h16M4 17h16'/%3E%3C/svg%3E");
+  cursor: pointer;
+}
+.nav__toggle[aria-expanded="true"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314141C' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E");
+}
+.nav__toggle:hover { background-color: var(--bg-subtle); }
+
 /* ---------- hero ---------- */
 
 .hero__inner {
@@ -261,7 +285,17 @@ a { color: inherit; }
   grid-template-columns: repeat(2, 327px);
   gap: 22px;
 }
-.stage img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 16px; box-shadow: var(--shadow-sm); }
+/* `height: auto` is load-bearing: the <img> carries height="327", and while
+   that attribute leaves height non-auto, `aspect-ratio` is ignored — on a
+   narrow screen the image rendered 156x327 and cropped to a tall slice. */
+.stage img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
 .stage__caption { margin-top: 12px; font-size: 14px; font-weight: 500; color: var(--text-secondary); }
 .stage__num { color: var(--accent); font-weight: 600; font-size: 12px; margin-right: 8px; }
 
@@ -494,6 +528,15 @@ a { color: inherit; }
 .zoom:hover::before, .zoom:focus-visible::before { opacity: 1; transform: none; }
 .zoom:hover::after { background: rgba(20, 20, 28, .14); }
 .zoom:hover img { transform: scale(1.03); }
+
+/* On a touch screen there is no hover, so the badge would never appear and
+   nothing would suggest the images open. Show it permanently instead, and
+   drop the hover-only motion. */
+@media (hover: none) {
+  .zoom::before { opacity: .9; transform: none; }
+  .zoom:hover img { transform: none; }
+  .zoom:hover::after { background: rgba(20, 20, 28, 0); }
+}
 /* Logo tiles are artwork on white — scaling and darkening them looks wrong. */
 .grid--tiles .zoom:hover img { transform: none; }
 .grid--tiles .zoom:hover::after { background: rgba(20, 20, 28, .05); }
@@ -502,7 +545,10 @@ a { color: inherit; }
 
 .lightbox {
   width: 100vw; max-width: 100vw;
+  /* dvh so the viewer does not run under a phone's collapsing address bar;
+     the vh pair stays first as the fallback. */
   height: 100vh; max-height: 100vh;
+  height: 100dvh; max-height: 100dvh;
   margin: 0; padding: 0; border: 0;
   background: rgba(10, 10, 16, .96);
   overflow: hidden;
@@ -625,7 +671,7 @@ a { color: inherit; }
 }
 
 @media (max-width: 600px) {
-  .lightbox__close { top: 12px; right: 14px; width: 40px; height: 40px; }
+  .lightbox__close { top: 12px; right: 14px; width: 44px; height: 44px; }
   .lightbox__nav { width: 44px; height: 44px; font-size: 26px; }
   .lightbox__nav--prev { left: 10px; }
   .lightbox__nav--next { right: 10px; }
@@ -635,16 +681,59 @@ a { color: inherit; }
   /* The single-row nav overflows below ~600px, so it stacks: name on one
      line, links centred underneath. Not a designed mobile pattern — if you
      want a hamburger, this is the place for it. */
-  :root { --nav-h: 132px; }
-  .nav__inner { row-gap: 14px; justify-content: center; }
-  .nav__mark { width: 100%; text-align: center; }
-  .nav__links { gap: 14px; flex-wrap: wrap; justify-content: center; }
-  .nav__links a { font-size: 14px; }
-  .nav__links .btn--sm { padding: 10px 16px; }
+  /* Phone nav: one compact row with a disclosure menu. The stacked two-row
+     version this replaces was 130px tall — 15% of an iPhone screen, held
+     there permanently by position:sticky. */
+  :root { --nav-h: 64px; }
+
+  .nav { position: sticky; }
+  .nav__inner {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px var(--gutter);
+    row-gap: 0;
+  }
+  .nav__mark { width: auto; text-align: left; font-size: 17px; }
+  .nav__toggle { display: block; flex: 0 0 auto; }
+
+  /* Absolutely positioned so opening the menu does not change the nav's
+     height — which would otherwise throw off every anchor offset. */
+  .nav__links {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 4px var(--gutter) 18px;
+    background: var(--bg-page);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 12px 28px rgba(20, 20, 40, .12);
+  }
+  .nav__links.is-open { display: flex; }
+  .nav__links a {
+    padding: 15px 2px;             /* ~50px tall: comfortably tappable */
+    font-size: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav__links a.is-active { color: var(--accent); }
+  .nav__links .btn {
+    margin-top: 16px;
+    justify-content: center;
+    border-bottom: 0;
+    padding: 15px 22px;
+  }
+
+  /* Four stages side by side leaves each one ~156px — too small to read the
+     shadow and blending work the section exists to show. */
+  .process__grid { grid-template-columns: 1fr; gap: 26px; }
+
+  .hero__visual { width: 100%; flex-basis: auto; height: 330px; }
+  .hero__card--main { left: auto; right: 0; top: 0; width: 230px; height: 230px; }
+  .hero__card--sub  { left: 0; top: 165px; width: 130px; height: 130px; border-width: 5px; }
+
   .grid--4 > li, .grid--3 > li { width: calc((100% - 20px) / 2); }
-  .hero__visual { width: 100%; flex-basis: auto; height: 360px; }
-  .hero__card--main { left: auto; right: 0; width: 260px; height: 260px; }
-  .hero__card--sub  { top: 200px; width: 140px; height: 140px; }
   .footer__inner { flex-direction: column; gap: 8px; }
 }
 

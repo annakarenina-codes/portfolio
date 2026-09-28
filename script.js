@@ -21,6 +21,47 @@
     root.style.overflow = document.querySelector('dialog[open]') ? 'hidden' : '';
   }
 
+  /* ---------------- phone menu ----------------
+
+     Below the phone breakpoint the links collapse behind a disclosure
+     button. The panel is absolutely positioned in CSS so opening it does not
+     change the nav's height, which every anchor offset is measured against. */
+
+  var navToggle = document.querySelector('.nav__toggle');
+  var navLinks = document.getElementById('nav-links');
+
+  function setMenu(open) {
+    if (!navToggle) return;
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navLinks.classList.toggle('is-open', open);
+  }
+
+  if (navToggle) {
+    navToggle.addEventListener('click', function (event) {
+      event.stopPropagation();
+      setMenu(navToggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Tapping a destination should take you there and get out of the way.
+    navLinks.addEventListener('click', function (event) {
+      if (event.target.closest('a')) setMenu(false);
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!event.target.closest('.nav')) setMenu(false);
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') setMenu(false);
+    });
+
+    // Rotating to landscape can cross the breakpoint with the panel open,
+    // which would leave it stranded over the desktop layout.
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 600) setMenu(false);
+    });
+  }
+
   /* ---------------- in-page anchor jumps ----------------
 
      Animated here by hand rather than with the platform's smooth scrolling,
@@ -152,6 +193,20 @@
   lb.addEventListener('click', function (event) {
     if (event.target === lb || event.target.classList.contains('lightbox__figure')) closeViewer();
   });
+
+  // Swipe between images — the expected gesture in a phone gallery, where
+  // the arrow buttons are small targets near the screen edge.
+  var swipeFrom = null;
+  lb.addEventListener('touchstart', function (event) {
+    swipeFrom = event.changedTouches[0].clientX;
+  }, { passive: true });
+
+  lb.addEventListener('touchend', function (event) {
+    if (swipeFrom === null) return;
+    var travelled = event.changedTouches[0].clientX - swipeFrom;
+    swipeFrom = null;
+    if (Math.abs(travelled) > 50) step(travelled < 0 ? 1 : -1);
+  }, { passive: true });
 
   lb.addEventListener('keydown', function (event) {
     if (event.key === 'ArrowRight') { event.preventDefault(); step(1); }
