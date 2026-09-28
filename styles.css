@@ -1,0 +1,653 @@
+/* =========================================================
+   Anna Karenina Sanglay — portfolio
+   Tokens mirror the "Portfolio" variable collection in Figma.
+   ========================================================= */
+
+:root {
+  --bg-page:       #FFFFFF;
+  --bg-subtle:     #F7F7FB;
+  --bg-card:       #FFFFFF;
+  --text-primary:  #14141C;
+  --text-secondary:#5A5A6E;
+  --text-muted:    #9494A8;
+  --border:        #E9E9F0;
+  --accent:        #5B5BD6;
+  --accent-soft:   #EFEFFD;
+  --on-accent:     #FFFFFF;
+
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-body:    "Inter", system-ui, sans-serif;
+
+  /* 1120px of content plus the gutter on each side, so the inner column
+     matches the 1120px content area of the 1440px Figma frame. */
+  --gutter: 40px;
+  --content: calc(1120px + var(--gutter) * 2);
+  --section-y: 110px;
+  /* Height of the sticky nav. Anchor targets clear it via scroll-margin-top,
+     otherwise a jump to #contact lands with its heading under the bar. */
+  --nav-h: 92px;
+
+  --shadow-sm: 0 8px 20px rgba(20, 20, 40, .12);
+  --shadow-md: 0 16px 36px rgba(20, 20, 40, .20);
+  --shadow-lg: 0 24px 52px rgba(20, 20, 40, .22);
+  --shadow-xl: 0 30px 70px rgba(20, 20, 40, .32);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* No `scroll-behavior: smooth` here on purpose: script.js owns anchor
+     animation so that a jump still lands when animation frames are paused.
+     Without JS these fall back to instant native jumps, which is fine —
+     scroll-margin-top below still keeps them clear of the sticky nav. */
+
+  /* Keep the gutter reserved so hiding the scrollbar for an open modal
+     does not shift the page sideways. */
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* A section's own top padding already pushes its content clear of the nav,
+   so the anchor offset only needs to make up the shortfall — otherwise the
+   padding and the offset stack and the content lands far too low. Both terms
+   change with the breakpoints (the nav grows when it stacks, --section-y
+   shrinks), so derive it rather than hard-coding a number. */
+section[id] {
+  scroll-margin-top: max(8px, calc(var(--nav-h) - var(--section-y) + 28px));
+}
+/* Contact has almost no top padding of its own, so it needs full clearance. */
+section[id].contact { scroll-margin-top: calc(var(--nav-h) + 28px); }
+
+img { max-width: 100%; display: block; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+p { margin: 0; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.skip-link {
+  position: absolute; left: -9999px;
+  background: var(--accent); color: var(--on-accent);
+  padding: 12px 20px; border-radius: 0 0 10px 0;
+  font-weight: 600; text-decoration: none; z-index: 100;
+}
+.skip-link:focus { left: 0; top: 0; }
+
+/* ---------- shared type ---------- */
+
+.label {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.label--accent { color: var(--accent); }
+.label--muted  { color: var(--text-muted); letter-spacing: .10em; }
+
+.h1-sm, .h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -.02em;
+  margin: 0;
+}
+.h2     { font-size: clamp(30px, 3.2vw, 40px); }
+.h1-sm  { font-size: clamp(32px, 3.6vw, 44px); }
+
+.body {
+  font-size: 16px;
+  line-height: 1.72;
+  color: var(--text-secondary);
+}
+.body--lead { font-size: 17px; line-height: 1.6; }
+.meta { font-size: 14px; font-weight: 500; color: var(--text-muted); }
+
+/* ---------- pills / chips ---------- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: var(--bg-card);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.pill:not(:has(img)) { padding-inline: 16px; }
+.pill img { width: 20px; height: 20px; object-fit: contain; }
+
+.pill--accent {
+  background: var(--accent-soft);
+  border-color: transparent;
+  color: var(--accent);
+  font-weight: 600;
+}
+.pill--sm { padding: 7px 13px; border-radius: 8px; font-size: 13px; color: var(--text-secondary); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chips--code { margin-top: 10px; }
+.chips--sm { margin-top: 12px; gap: 8px; }
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 28px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.btn--primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn--sm { padding: 12px 22px; font-size: 14px; }
+.btn[aria-disabled="true"] { opacity: .55; cursor: not-allowed; }
+.btn[aria-disabled="true"]:hover { transform: none; box-shadow: none; }
+
+/* ---------- nav ---------- */
+
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255, 255, 255, .88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  /* Two layers: a tight one for a defined edge, a wide one for the falloff.
+     Raise the second alpha for a heavier bar, lower it for a flatter one. */
+  box-shadow: 0 1px 2px rgba(20, 20, 40, .05),
+              0 8px 26px rgba(20, 20, 40, .10);
+}
+.nav__inner {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding: 20px var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.nav__mark {
+  font-family: var(--font-display);
+  font-size: 19px; font-weight: 600; letter-spacing: -.01em;
+  text-decoration: none;
+}
+.nav__links { display: flex; align-items: center; gap: 36px; }
+.nav__links a { font-size: 15px; font-weight: 500; color: var(--text-secondary); text-decoration: none; }
+.nav__links a:hover { color: var(--text-primary); }
+.nav__links .btn { color: var(--on-accent); }
+
+/* ---------- hero ---------- */
+
+.hero__inner {
+  max-width: var(--content);
+  margin-inline: auto;
+  /* #about always lands at the top of the page, so this padding — not the
+     anchor offset — is what sets the space under the nav there. */
+  padding: 72px var(--gutter) 110px;
+  display: flex;
+  align-items: center;
+  gap: 80px;
+}
+.hero__copy { flex: 0 1 560px; }
+
+.hero__greeting {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(38px, 5vw, 56px);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -.02em;
+}
+.roles { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.hero__intro {
+  margin-top: 26px;
+  max-width: 520px;
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+#tools-label { margin-top: 40px; }
+.chips:not(.chips--code):not(.chips--sm) { margin-top: 14px; }
+
+.hero__visual { position: relative; flex: 0 0 480px; height: 520px; }
+.hero__card { position: absolute; border-radius: 24px; object-fit: cover; }
+.hero__card--main { left: 100px; top: 20px; width: 380px; height: 380px; box-shadow: var(--shadow-lg); }
+.hero__card--sub {
+  left: 0; top: 290px; width: 200px; height: 200px;
+  border-radius: 18px; border: 6px solid #fff; box-shadow: var(--shadow-md);
+}
+
+/* ---------- process ---------- */
+
+.process { background: var(--bg-subtle); }
+.process__inner {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding: var(--section-y) var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 64px;
+}
+.process__grid {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 327px);
+  gap: 22px;
+}
+.stage img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 16px; box-shadow: var(--shadow-sm); }
+.stage__caption { margin-top: 12px; font-size: 14px; font-weight: 500; color: var(--text-secondary); }
+.stage__num { color: var(--accent); font-weight: 600; font-size: 12px; margin-right: 8px; }
+
+.process__copy { flex: 0 1 380px; }
+.process__copy .h2   { margin-top: 18px; }
+.process__copy .body { margin-top: 24px; }
+.process__copy .meta { margin-top: 30px; }
+
+/* ---------- work ---------- */
+
+.work__inner {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding: var(--section-y) var(--gutter);
+}
+.work__head .h2   { margin-top: 14px; }
+.work__head .body { margin-top: 14px; }
+
+.cards {
+  margin-top: 52px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.cards > li { display: flex; }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg-card);
+  overflow: hidden;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: transparent; }
+
+.card__thumb { width: 100%; height: 240px; object-fit: cover; }
+.card__thumb--contain { object-fit: contain; padding: 24px; background: var(--bg-card); }
+
+.card__body { display: flex; flex-direction: column; flex: 1; padding: 26px 28px 28px; gap: 10px; }
+.card__title { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -.01em; }
+.card__count { font-size: 13px; font-weight: 600; color: var(--accent); }
+.card__desc  { font-size: 14px; line-height: 1.65; color: var(--text-secondary); padding-block: 4px 10px; }
+.card__cta   { margin-top: auto; font-size: 14px; font-weight: 600; color: var(--accent); }
+
+/* ---------- contact ---------- */
+
+.contact {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding: 10px var(--gutter) var(--section-y);
+}
+.contact__panel {
+  border-radius: 28px;
+  background: var(--accent-soft);
+  padding: 76px 80px;
+  text-align: center;
+}
+.contact__panel .h1-sm { margin-top: 18px; }
+.contact__panel .body  { margin-top: 16px; font-size: 17px; }
+.contact__mail { margin-top: 22px; font-family: var(--font-display); font-size: 20px; font-weight: 600; letter-spacing: -.01em; }
+.contact__mail a { color: var(--accent); text-decoration: none; }
+.contact__mail a:hover { text-decoration: underline; }
+.contact__actions { margin-top: 38px; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+
+/* ---------- footer ---------- */
+
+.footer { border-top: 1px solid var(--border); }
+.footer__inner {
+  max-width: var(--content);
+  margin-inline: auto;
+  padding: 34px var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.muted { color: var(--text-muted); }
+
+/* ---------- modals ---------- */
+
+.modal {
+  width: min(1040px, calc(100vw - 120px));
+  max-width: none;
+  max-height: calc(100vh - 120px);
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  overflow: visible;
+}
+.modal::backdrop { background: rgba(20, 20, 28, .55); }
+
+.modal__card {
+  background: var(--bg-card);
+  border-radius: 24px;
+  padding: 36px 40px 40px;
+  box-shadow: var(--shadow-xl);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+.modal__title { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 600; letter-spacing: -.01em; }
+.modal__sub   { margin-top: 6px; font-size: 14px; color: var(--text-muted); }
+
+.modal__close {
+  flex: 0 0 auto;
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border: 0; border-radius: 100px;
+  background: #F2F2F6;
+  color: var(--text-secondary);
+  font-size: 20px; line-height: 1;
+  cursor: pointer;
+}
+.modal__close:hover { background: var(--border); }
+
+.modal__note { margin-top: 26px; font-size: 14px; line-height: 1.7; color: var(--text-secondary); }
+
+/* Flex rather than grid so a short final row centres, as it does in the
+   mockup — 7 posters across 4 columns, 5 logos across 3. */
+.grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+.grid--4 > li { width: calc((100% - 60px) / 4); }
+.grid--3 > li { width: calc((100% - 40px) / 3); }
+.grid img { width: 100%; border-radius: 12px; }
+
+.grid--tiles img {
+  aspect-ratio: 306 / 250;
+  object-fit: contain;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg-card);
+}
+
+.disclaimer {
+  margin-top: 26px;
+  display: flex;
+  gap: 12px;
+  padding: 18px 22px;
+  border-radius: 14px;
+  background: var(--bg-subtle);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.shot {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.project {
+  margin-top: 24px;
+  padding: 36px 40px;
+  border-radius: 20px;
+  background: var(--accent-soft);
+}
+.project--plain { margin-top: 34px; padding: 0; background: none; }
+.project__title { margin-top: 14px; font-family: var(--font-display); font-size: 24px; font-weight: 600; letter-spacing: -.01em; }
+.project__url   { margin-top: 8px; font-size: 15px; font-weight: 600; color: var(--accent); }
+.project .body  { margin-top: 10px; font-size: 15px; line-height: 1.65; }
+.project__role  { margin-top: 20px; font-size: 15px; font-weight: 500; color: var(--text-primary); }
+.project__actions { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 12px; }
+.project__repo  { margin-top: 14px; font-size: 13px; color: var(--text-muted); }
+
+.rule { margin: 46px 0 0; border: 0; border-top: 1px solid var(--border); }
+
+.screens { margin-top: 26px; display: grid; gap: 28px; }
+.screens img { width: 100%; border: 1px solid var(--border); border-radius: 14px; }
+
+/* ---------- zoomable images ---------- */
+
+/* JS wraps every gallery image in this button at load, so without JS the
+   images are simply images and nothing is broken. */
+.zoom {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: inherit;
+  cursor: zoom-in;
+  font: inherit;
+  color: inherit;
+}
+.zoom img { transition: transform .35s ease; }
+.zoom::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: rgba(20, 20, 28, 0);
+  transition: background .2s ease;
+  pointer-events: none;
+}
+.zoom::before {
+  content: '';
+  position: absolute; top: 10px; right: 10px;
+  width: 34px; height: 34px;
+  z-index: 2;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, .95)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314141C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5'/%3E%3C/svg%3E")
+    center / 16px 16px no-repeat;
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: scale(.82);
+  transition: opacity .18s ease, transform .18s ease;
+  pointer-events: none;
+}
+.zoom:hover::before, .zoom:focus-visible::before { opacity: 1; transform: none; }
+.zoom:hover::after { background: rgba(20, 20, 28, .14); }
+.zoom:hover img { transform: scale(1.03); }
+/* Logo tiles are artwork on white — scaling and darkening them looks wrong. */
+.grid--tiles .zoom:hover img { transform: none; }
+.grid--tiles .zoom:hover::after { background: rgba(20, 20, 28, .05); }
+
+/* ---------- full-screen viewer ---------- */
+
+.lightbox {
+  width: 100vw; max-width: 100vw;
+  height: 100vh; max-height: 100vh;
+  margin: 0; padding: 0; border: 0;
+  background: rgba(10, 10, 16, .96);
+  overflow: hidden;
+}
+.lightbox::backdrop { background: rgba(10, 10, 16, .96); }
+.lightbox[open] { display: flex; align-items: center; justify-content: center; }
+
+.lightbox__figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: min(92vw, 1400px);
+}
+.lightbox__img {
+  max-width: min(92vw, 1400px);
+  max-height: 78vh;
+  width: auto; height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+}
+.lightbox__cap {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  max-width: 900px;
+  color: rgba(255, 255, 255, .82);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: left;
+}
+.lightbox__count { flex: 0 0 auto; color: rgba(255, 255, 255, .5); font-variant-numeric: tabular-nums; }
+
+.lightbox__close, .lightbox__nav {
+  position: absolute;
+  display: grid; place-items: center;
+  border: 0; border-radius: 100px;
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  cursor: pointer;
+  transition: background .18s ease, transform .18s ease;
+}
+.lightbox__close:hover, .lightbox__nav:hover { background: rgba(255, 255, 255, .24); }
+.lightbox__close {
+  top: 20px; right: 24px;
+  width: 44px; height: 44px;
+  font-size: 24px; line-height: 1;
+}
+.lightbox__nav {
+  top: 50%; transform: translateY(-50%);
+  width: 52px; height: 52px;
+  font-size: 30px; line-height: 1;
+  padding-bottom: 4px;
+}
+.lightbox__nav:hover { transform: translateY(-50%) scale(1.06); }
+.lightbox__nav--prev { left: 24px; }
+.lightbox__nav--next { right: 24px; }
+.lightbox__nav[hidden] { display: none; }
+
+/* ---------- scroll reveal ---------- */
+
+/* Only active once JS confirms IntersectionObserver and no motion preference,
+   so the content is visible by default if either is missing. */
+.js-reveal [data-reveal],
+.js-reveal [data-reveal-children] > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.22, .61, .36, 1);
+}
+.js-reveal [data-reveal].is-in,
+.js-reveal [data-reveal-children].is-in > * {
+  opacity: 1;
+  transform: none;
+}
+.js-reveal [data-reveal-children].is-in > *:nth-child(2) { transition-delay: .08s; }
+.js-reveal [data-reveal-children].is-in > *:nth-child(3) { transition-delay: .16s; }
+.js-reveal [data-reveal-children].is-in > *:nth-child(4) { transition-delay: .24s; }
+
+/* ---------- nav scroll-spy ---------- */
+
+.nav__links a.is-active { color: var(--text-primary); font-weight: 600; }
+
+/* =========================================================
+   Responsive.
+   NOTE: the Figma mockup is desktop-only — these breakpoints
+   are a reasonable default, not a designed layout.
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .hero__inner   { gap: 48px; }
+  .process__inner { gap: 40px; }
+  .process__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero__visual  { flex: 0 0 380px; height: 430px; }
+  .hero__card--main { left: 60px; width: 320px; height: 320px; }
+  .hero__card--sub  { top: 240px; width: 170px; height: 170px; }
+}
+
+@media (max-width: 900px) {
+  :root { --section-y: 72px; --gutter: 28px; }
+
+  /* Five links plus the Contact button stop fitting on one row somewhere
+     around 640px; tighten the gaps, and let the whole bar wrap rather than
+     overflow if they still do not fit. */
+  .nav__inner { flex-wrap: wrap; row-gap: 12px; }
+  .nav__links { gap: 22px; }
+
+  .hero__inner, .process__inner { flex-direction: column; align-items: flex-start; }
+  .hero__copy, .process__copy { flex: 1 1 auto; width: 100%; }
+  .hero__visual { align-self: center; }
+  .process__grid { width: 100%; }
+  .cards { grid-template-columns: 1fr; }
+  .contact__panel { padding: 56px 32px; }
+  .grid--4 > li { width: calc((100% - 40px) / 3); }
+
+  .modal { width: calc(100vw - 32px); max-height: calc(100vh - 32px); }
+  .modal__card { padding: 24px 22px 28px; max-height: calc(100vh - 32px); }
+  .project { padding: 28px 24px; }
+}
+
+@media (max-width: 600px) {
+  .lightbox__close { top: 12px; right: 14px; width: 40px; height: 40px; }
+  .lightbox__nav { width: 44px; height: 44px; font-size: 26px; }
+  .lightbox__nav--prev { left: 10px; }
+  .lightbox__nav--next { right: 10px; }
+  .lightbox__img { max-height: 66vh; }
+  .lightbox__cap { flex-direction: column; gap: 4px; padding-inline: 16px; }
+
+  /* The single-row nav overflows below ~600px, so it stacks: name on one
+     line, links centred underneath. Not a designed mobile pattern — if you
+     want a hamburger, this is the place for it. */
+  :root { --nav-h: 132px; }
+  .nav__inner { row-gap: 14px; justify-content: center; }
+  .nav__mark { width: 100%; text-align: center; }
+  .nav__links { gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .nav__links a { font-size: 14px; }
+  .nav__links .btn--sm { padding: 10px 16px; }
+  .grid--4 > li, .grid--3 > li { width: calc((100% - 20px) / 2); }
+  .hero__visual { width: 100%; flex-basis: auto; height: 360px; }
+  .hero__card--main { left: auto; right: 0; width: 260px; height: 260px; }
+  .hero__card--sub  { top: 200px; width: 140px; height: 140px; }
+  .footer__inner { flex-direction: column; gap: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

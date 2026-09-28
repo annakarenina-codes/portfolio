@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anna Karenina Sanglay — Graphic &amp; UI/UX Designer</title>
+<meta name="description" content="Portfolio of Anna Karenina Sanglay: publication materials, logos, and interface design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="nav__inner">
+    <a class="nav__mark" href="#top">Anna Karenina</a>
+    <nav class="nav__links" aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#process">Process</a>
+      <a href="#work">Work</a>
+      <a href="assets/resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="btn btn--primary btn--sm" href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===== Hero / About ===== -->
+  <section class="hero" id="about">
+    <div class="hero__inner">
+      <div class="hero__copy" data-reveal>
+        <h1 class="hero__greeting">Hi, I&rsquo;m Anna Karenina!</h1>
+        <p class="roles">
+          <span class="pill pill--accent">Graphic Designer</span>
+          <span class="pill pill--accent">UI/UX Designer</span>
+        </p>
+        <p class="hero__intro">
+          Part graphic designer, part UI/UX designer &mdash; I build posters in layers
+          and interfaces in flows, chasing the same clarity in both.
+        </p>
+
+        <h2 class="label label--muted" id="tools-label">Tools I work in</h2>
+        <ul class="chips" aria-labelledby="tools-label">
+          <li class="pill"><img src="assets/tools/photoshop.png" alt="" width="20" height="20">Adobe Photoshop</li>
+          <li class="pill"><img src="assets/tools/canva.png" alt="" width="20" height="20">Canva</li>
+          <li class="pill"><img src="assets/tools/figma.png" alt="" width="20" height="20">Figma</li>
+          <li class="pill"><img src="assets/tools/krita.png" alt="" width="20" height="20">Krita</li>
+        </ul>
+        <ul class="chips chips--code" aria-label="Languages">
+          <li class="pill">HTML</li>
+          <li class="pill">CSS</li>
+          <li class="pill">JavaScript</li>
+        </ul>
+      </div>
+
+      <div class="hero__visual" aria-hidden="true" data-reveal>
+        <img class="hero__card hero__card--main" src="assets/pubmats/chess-sm.jpg" alt="" width="380" height="380">
+        <img class="hero__card hero__card--sub" src="assets/pubmats/mlbb-sm.jpg" alt="" width="200" height="200">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Process ===== -->
+  <section class="process" id="process">
+    <div class="process__inner">
+      <ol class="process__grid" data-gallery="process" data-reveal-children>
+        <li class="stage">
+          <img src="assets/process/stage-1.jpg" alt="Stage one: the bare wood background before any elements are added." loading="lazy" width="327" height="327">
+          <p class="stage__caption"><span class="stage__num">01</span> Base plate</p>
+        </li>
+        <li class="stage">
+          <img src="assets/process/stage-2.jpg" alt="Stage two: clipboard, ball, paddles and whistle placed flat on the wood with no shadows." loading="lazy" width="327" height="327">
+          <p class="stage__caption"><span class="stage__num">02</span> Elements placed</p>
+        </li>
+        <li class="stage">
+          <img src="assets/process/stage-3.jpg" alt="Stage three: shadows, blending and the council seals added so the objects sit on one surface." loading="lazy" width="327" height="327">
+          <p class="stage__caption"><span class="stage__num">03</span> Shadows &amp; blending</p>
+        </li>
+        <li class="stage">
+          <img src="assets/process/stage-4.jpg" alt="Stage four: the finished poster with title, date, venue and footer typography." loading="lazy" width="327" height="327">
+          <p class="stage__caption"><span class="stage__num">04</span> Type &amp; final</p>
+        </li>
+      </ol>
+
+      <div class="process__copy" data-reveal>
+        <h2 class="label label--accent">Process</h2>
+        <p class="h2">Every Element Stacked with Intention</p>
+        <p class="body">
+          Nothing here was photographed together. The clipboard, the ball, the paddles and
+          the whistle were cut out separately, then given their own shadows and blending so
+          the eye reads one surface instead of four pasted objects. Only once the light
+          agreed did the type go down.
+        </p>
+        <p class="meta">Adobe Photoshop &nbsp;&middot;&nbsp; Palarong Wesleyan 2024</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Work ===== -->
+  <section class="work" id="work">
+    <div class="work__inner">
+      <header class="work__head" data-reveal>
+        <h2 class="label label--accent">Selected work</h2>
+        <p class="h2">Three kinds of making.</p>
+        <p class="body body--lead">Open a category to see everything inside it.</p>
+      </header>
+
+      <ul class="cards" data-reveal-children>
+        <li>
+          <button class="card" type="button" data-modal="modal-pubmats">
+            <img class="card__thumb" src="assets/pubmats/basketball-sm.jpg" alt="" loading="lazy" width="352" height="240">
+            <span class="card__body">
+              <span class="card__title">Publication Materials</span>
+              <span class="card__count">7 pieces</span>
+              <span class="card__desc">Seven tryout posters for Palarong Wesleyan 2024 &mdash; seven visual languages, one identity system.</span>
+              <span class="card__cta">View all &rarr;</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="card" type="button" data-modal="modal-logos">
+            <img class="card__thumb card__thumb--contain" src="assets/logos/arrow-triangle.png" alt="" loading="lazy" width="352" height="240">
+            <span class="card__body">
+              <span class="card__title">Logos</span>
+              <span class="card__count">5 marks</span>
+              <span class="card__desc">Wordmarks and symbol marks, from a gradient arrow family to a fully built letterform set.</span>
+              <span class="card__cta">View all &rarr;</span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <button class="card" type="button" data-modal="modal-web">
+            <img class="card__thumb" src="assets/web/fullplate.jpg" alt="" loading="lazy" width="352" height="240">
+            <span class="card__body">
+              <span class="card__title">Websites</span>
+              <span class="card__count">1 live &middot; 3 screens</span>
+              <span class="card__desc">FullPlate, a restaurant site I designed and coded, plus a three-screen forecasting dashboard.</span>
+              <span class="card__cta">View all &rarr;</span>
+            </span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Contact ===== -->
+  <section class="contact" id="contact">
+    <div class="contact__panel" data-reveal>
+      <h2 class="label label--accent">Contact</h2>
+      <p class="h1-sm">Let&rsquo;s make something together.</p>
+      <p class="body">Open to publication design, brand marks, and interface work.</p>
+      <p class="contact__mail"><a href="mailto:annasanglay128@gmail.com">annasanglay128@gmail.com</a></p>
+      <p class="contact__actions">
+        <a class="btn btn--primary" href="mailto:annasanglay128@gmail.com">Email me</a>
+        <a class="btn" id="resume" href="assets/resume.pdf" download="Anna-Karenina-Sanglay-Resume.pdf">Download résumé</a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <span>Anna Karenina Sanglay</span>
+    <span class="muted">&copy; 2026</span>
+  </div>
+</footer>
+
+
+<!-- ===================== MODALS ===================== -->
+
+<dialog class="modal" id="modal-pubmats" aria-labelledby="modal-pubmats-title">
+  <div class="modal__card">
+    <header class="modal__head">
+      <div>
+        <h2 class="modal__title" id="modal-pubmats-title">Publication Materials</h2>
+        <p class="modal__sub">7 posters &middot; Palarong Wesleyan 2024 &middot; Adobe Photoshop</p>
+      </div>
+      <button class="modal__close" type="button" aria-label="Close">&times;</button>
+    </header>
+
+    <ul class="grid grid--4" data-gallery="pubmats">
+      <li><img src="assets/pubmats/basketball.jpg" alt="Basketball tryout poster with the Tiger Sharks mascot and extruded type." loading="lazy"></li>
+      <li><img src="assets/pubmats/chess.jpg" alt="Chess tryout poster styled as parchment with a wax-sealed envelope." loading="lazy"></li>
+      <li><img src="assets/pubmats/mlbb.jpg" alt="Mobile Legends tryout poster built over game splash art." loading="lazy"></li>
+      <li><img src="assets/pubmats/sepak-takraw.jpg" alt="Sepak Takraw tryout poster shot as a dark product still with shoes, phone and rattan ball." loading="lazy"></li>
+      <li><img src="assets/pubmats/table-tennis.jpg" alt="Table tennis tryout poster built around a clipboard composite." loading="lazy"></li>
+      <li><img src="assets/pubmats/valorant.jpg" alt="Valorant esports tryout poster with agent splash art and Get Ready lettering." loading="lazy"></li>
+      <li><img src="assets/pubmats/volleyball.jpg" alt="Volleyball tryout poster with gold extruded Serve to Win lettering on a dark court." loading="lazy"></li>
+    </ul>
+
+    <p class="modal__note">
+      Each poster keeps the same university lockup, council seals and college footer, while the
+      interior is built to match its sport &mdash; parchment and wax for Chess, splash art for
+      MLBB and Valorant, a lit product shot for Sepak Takraw.
+    </p>
+  </div>
+</dialog>
+
+
+<dialog class="modal" id="modal-logos" aria-labelledby="modal-logos-title">
+  <div class="modal__card">
+    <header class="modal__head">
+      <div>
+        <h2 class="modal__title" id="modal-logos-title">Logos</h2>
+        <p class="modal__sub">5 marks &middot; Adobe Photoshop</p>
+      </div>
+      <button class="modal__close" type="button" aria-label="Close">&times;</button>
+    </header>
+
+    <ul class="grid grid--3 grid--tiles" data-gallery="logos">
+      <li><img src="assets/logos/arrow-globe.png" alt="Circular gradient mark with a swoosh and an arrow." loading="lazy"></li>
+      <li><img src="assets/logos/arrow-triangle.png" alt="Triangular gradient mark built from interlocking arrows." loading="lazy"></li>
+      <li><img src="assets/logos/arrow-p.png" alt="Letter P formed from a gradient block and an arrow counter." loading="lazy"></li>
+      <li><img src="assets/logos/iris.png" alt="IRIS wordmark with an eye and magnifying glass symbol." loading="lazy"></li>
+      <li><img src="assets/logos/cect-techtris.png" alt="CECT TECHTRIS wordmark built from coloured tetromino letterforms." loading="lazy"></li>
+    </ul>
+
+    <p class="disclaimer">
+      <span aria-hidden="true">&#9432;</span>
+      The CECT TECHTRIS mark is a personal recreation study of the Tetris logo, made to
+      demonstrate letterform and lighting technique. It was never used commercially and is
+      not affiliated with, sponsored by, or endorsed by The Tetris Company.
+    </p>
+  </div>
+</dialog>
+
+
+<dialog class="modal" id="modal-web" aria-labelledby="modal-web-title">
+  <div class="modal__card">
+    <header class="modal__head">
+      <div>
+        <h2 class="modal__title" id="modal-web-title">Websites</h2>
+        <p class="modal__sub">2 projects &middot; one designed and built, one interface design</p>
+      </div>
+      <button class="modal__close" type="button" aria-label="Close">&times;</button>
+    </header>
+
+    <img class="shot" data-zoom src="assets/web/fullplate.jpg" alt="FullPlate homepage: a fixed navigation bar over a full-bleed breakfast photograph." loading="lazy">
+
+    <div class="project">
+      <h3 class="label label--accent">Project 01 &middot; Designed &amp; built</h3>
+      <p class="project__title">FullPlate &mdash; Restaurant Management</p>
+      <p class="project__url">fullplate-website.vercel.app</p>
+      <p class="body">
+        A restaurant management site built and deployed on Vercel &mdash; full-bleed food
+        photography behind a fixed top navigation, across Home, About Us and Contact Us.
+      </p>
+      <p class="project__role">I designed the interface and built the front end myself.</p>
+      <ul class="chips chips--sm" aria-label="Built with">
+        <li class="pill pill--sm">HTML</li>
+        <li class="pill pill--sm">CSS</li>
+        <li class="pill pill--sm">JavaScript</li>
+      </ul>
+      <p class="project__actions">
+        <a class="btn btn--primary" href="https://fullplate-website.vercel.app/" target="_blank" rel="noopener noreferrer">Visit live site &#8599;</a>
+        <a class="btn" href="https://github.com/annakarenina-codes/fullplate-website" target="_blank" rel="noopener noreferrer">View code on GitHub &#8599;</a>
+      </p>
+      <p class="project__repo">github.com/annakarenina-codes/fullplate-website</p>
+    </div>
+
+    <hr class="rule">
+
+    <div class="project project--plain">
+      <h3 class="label label--accent">Project 02 &middot; Interface design</h3>
+      <p class="project__title">Inventory &amp; Sales Forecasting Dashboard</p>
+      <p class="body">
+        A separate project from FullPlate. Three screens of one product &mdash; dashboard,
+        inventory, forecast &mdash; designed in Adobe Photoshop as mid-fidelity mockups.
+      </p>
+      <p class="project__role">Solo project &mdash; research through mid-fi screens.</p>
+    </div>
+
+    <ol class="screens" data-gallery="screens">
+      <li>
+        <img src="assets/web/dashboard.png" alt="Dashboard screen: sales forecast, inventory summary, weekly sales chart and restock alerts." loading="lazy">
+        <p class="stage__caption"><span class="stage__num">01</span> Dashboard &mdash; forecast, inventory summary, restock alerts</p>
+      </li>
+      <li>
+        <img src="assets/web/inventory.png" alt="Inventory screen: a searchable product table with per-row actions." loading="lazy">
+        <p class="stage__caption"><span class="stage__num">02</span> Inventory &mdash; searchable product table with row actions</p>
+      </li>
+      <li>
+        <img src="assets/web/forecast.png" alt="Forecast screen: product performance bars, a profit analysis pie chart and a customer behaviour heatmap." loading="lazy">
+        <p class="stage__caption"><span class="stage__num">03</span> Forecast &mdash; product performance, profit analysis, customer behaviour</p>
+      </li>
+    </ol>
+  </div>
+</dialog>
+
+
+<!-- ===== Full-screen image viewer ===== -->
+<dialog class="lightbox" id="lightbox" aria-label="Image viewer">
+  <button class="lightbox__close" type="button" aria-label="Close viewer">&times;</button>
+  <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous image">&#8249;</button>
+  <figure class="lightbox__figure">
+    <img class="lightbox__img" src="" alt="">
+    <figcaption class="lightbox__cap">
+      <span class="lightbox__text"></span>
+      <span class="lightbox__count"></span>
+    </figcaption>
+  </figure>
+  <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next image">&#8250;</button>
+</dialog>
+
+<script src="script.js"></script>
+</body>
+</html>
