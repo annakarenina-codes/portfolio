@@ -86,22 +86,12 @@ layouts — the Figma file is desktop-only.
 keyboard, every image has alt text, there is a skip link, and
 `prefers-reduced-motion` is respected.
 
-## The résumé
 
-`assets/resume.pdf` is exported from the Google Doc that is the source of
-truth:
-<https://docs.google.com/document/d/1sa6Osf5nOTVXNhAv4A7k3C9jPbsxu12t-B9gOHmsjmg/edit>
 
 Both the nav link and the contact button point at that file. **After editing
 the doc, re-export it** — File → Download → PDF Document — and overwrite
 `assets/resume.pdf`. Nothing syncs automatically.
 
-## Still to do
-
-- [ ] Fill the résumé placeholders: portfolio URL, the two project date
-      ranges, and interests.
-- [ ] Decide whether the Websites modal should become its own page. A live
-      site inside a lightbox is the one place the layout fights the content.
 
 ## Deploying
 
